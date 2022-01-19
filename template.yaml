@@ -9,6 +9,10 @@ Globals:
   Function:
     Timeout: 5
 
+Parameters:
+  ApiKey:
+    Type: String
+
 Resources:
   ExtractorFunction:
     Type: AWS::Serverless::Function
@@ -25,7 +29,7 @@ Resources:
             Method: GET
       Environment:
         Variables:
-          API_KEY: ${{ secrets.API_KEY }}
+          API_KEY: !Ref ApiKey
 
 Outputs:
   ExtractorAPI:
