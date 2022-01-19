@@ -41,5 +41,5 @@ Outputs:
     Description: "First Lambda Function ARN"
     Value: !GetAtt ExtractorFunction.Arn
   ExtractorFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for Extractor function"
     Value: !GetAtt ExtractorFunctionRole.Arn
