@@ -9,7 +9,7 @@ import (
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	return events.APIGatewayProxyResponse{
-		Body:       os.Getenv("X-API-Key"),
+		Body:       os.Getenv("API_KEY"),
 		StatusCode: 200,
 	}, nil
 }
