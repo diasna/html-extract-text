@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"os"
@@ -33,7 +34,7 @@ func parse(url string, selector string) ([]string, error) {
 	return result, nil
 }
 
-func handler(request events.APIGatewayProxyRequest) (map[string]interface{}, error) {
+func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	if request.Headers["X-API-Key"] == os.Getenv("API_KEY") {
 		url := request.QueryStringParameters["url"]
 		selector := request.QueryStringParameters["selector"]
@@ -43,15 +44,10 @@ func handler(request events.APIGatewayProxyRequest) (map[string]interface{}, err
 		} else {
 			resp, _ = parse(url, selector)
 		}
-		return map[string]interface{}{
-			"statusCode": 200,
-			"headers":    map[string]string{"Content-Type": "application/json"},
-			"body":       resp,
-		}, nil
+		bytes, _ := json.Marshal(resp)
+		return events.APIGatewayProxyResponse{Body: string(bytes), StatusCode: 200, Headers: map[string]string{"Content-Type": "application/json"}}, nil
 	} else {
-		return map[string]interface{}{
-			"statusCode": 401,
-		}, nil
+		return events.APIGatewayProxyResponse{StatusCode: 401}, nil
 	}
 }
 
